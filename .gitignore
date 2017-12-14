@@ -1,0 +1,12 @@
+.idea
+.DS_Store
+.nyc_output
+.vscode
+
+*.log
+*.map
+*.lcov
+
+lib
+coverage
+node_modules
