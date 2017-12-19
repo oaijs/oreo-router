@@ -15,6 +15,9 @@ class OreoRouter extends Router {
 
     // router options
     this.options = {
+      // OpenApi Specification format
+      api: opts.api,
+
       apiExplorerEnable: opts.apiExplorerEnable,
 
       // internal decorators middleware handler.
@@ -37,7 +40,7 @@ class OreoRouter extends Router {
     this.middlewares = loadClass(this.options.middleware);
     debug('load middlewares:', this.middlewares);
 
-    this.apiBuilder = new SwaggerApi();
+    this.apiBuilder = new SwaggerApi(this.options.api);
   }
 
   /**
