@@ -4,14 +4,15 @@ import Ajv from 'ajv-oai';
 import isClass from 'is-class';
 
 import swaggerSchema from './openapi-schema-2.0.json';
+import { DECORATORS_OPTION, DECORATORS_GROUP } from '../../decorators/helper/decorate';
 
 /**
- * Check int is integer.
+ * Check int is natural number.
  * @param {number} int
  * @param {string} msg
  */
-function assertInteger(int, msg = 'must be integer.') {
-  assert(_.isInteger(int), msg);
+function assertNaturalNumber(int, msg = 'must be a natural number.') {
+  assert(_.isInteger(int) && int >= 0, msg);
 }
 
 /**
@@ -57,16 +58,88 @@ function assertDecFun(target, name, descriptor, decoratorName) {
 }
 
 /**
- * Check decorator decorate times is valid.
- * @param {function} constructor
+ * Check is decorating class or class member function.
+ * @param {object} target
  * @param {string} name
+ * @param {object} descriptor
  * @param {string} decoratorName
- * @param {number} maxDecorate
  */
-function assertMaxDecorate(constructor, name, decoratorName, maxDecorate) {
-  const decoratedArgs = constructor.decoratorRegister.get(name, decoratorName);
-  const assertMsg = `@${decoratorName} max decorate ${constructor.name}${name ? '.' : ''}${name || ''} ${maxDecorate} times.`;
-  assert(decoratedArgs.length <= maxDecorate, assertMsg);
+function assertDec(target, name, descriptor, decoratorName) {
+  const msg = `[${decoratorName}] must decorate class or class member function.`;
+
+  function isDecClass() {
+    return isClass(target) && name === undefined && descriptor === undefined;
+  }
+
+  function isDecMethod() {
+    return !isClass(target) && name !== undefined && descriptor !== undefined;
+  }
+
+  assert(isDecClass() || isDecMethod(), msg);
+}
+
+/**
+ * Check decorator decorate times is valid.
+ * @param {string} decoratorName
+ * @param {number} minDecorate
+ * @param {number} maxDecorate
+ * @param {string[]} groups
+ * @param {object} decoratorCounter
+ */
+function assertDecorateTimesSingle(decoratorName, minDecorate, maxDecorate, groups, decoratorCounter) {
+  function getGroupsStatus(groupsArray) {
+    return _.sumBy(groupsArray, (decName) => {
+      return decoratorCounter[decName];
+    }) || 0;
+  }
+
+  const count = getGroupsStatus(groups);
+  const assertMsg = `${groups.join(' or ')} decorate times is ${count}, not in range: ${minDecorate} - ${maxDecorate}`;
+  assert(minDecorate <= count && count <= maxDecorate, assertMsg);
+}
+
+/**
+ * Check decorator decorate times is valid by decoratorCounter.
+ * @param {boolean} global
+ * @param {object} decoratorCounter
+ */
+function assertDecorateTimes(global, decoratorCounter) {
+  _.each(DECORATORS_OPTION, (decoratorOpts, decoratorName) => {
+    const {
+      group = decoratorName,
+      targetType = 'any',
+      maxDecorate = 1,
+      minDecorate = 0,
+      } = decoratorOpts;
+    const groups = DECORATORS_GROUP[group || decoratorName];
+
+
+    if (global && (targetType === 'any' || targetType === 'class')) {
+      assertDecorateTimesSingle(decoratorName, minDecorate, maxDecorate, groups, decoratorCounter);
+    } else if (!global && targetType === 'function') {
+      assertDecorateTimesSingle(decoratorName, minDecorate, maxDecorate, groups, decoratorCounter);
+    }
+  });
+}
+
+/**
+ * Check decorated target type is valid.
+ * @param {string} targetType
+ * @param {string} decoratorName
+ * @param {object} target
+ * @param {string} name
+ * @param {object} descriptor
+ */
+function assertTargetType(targetType, decoratorName, target, name, descriptor) {
+  if (targetType === 'class') {
+    assertDecClass(target, name, descriptor, decoratorName);
+  } else if (targetType === 'function') {
+    assertDecFun(target, name, descriptor, decoratorName);
+  } else if (targetType === 'any') {
+    assertDec(target, name, descriptor, decoratorName);
+  } else {
+    assert(false, `targetType of decorator ${decoratorName} must be one of any,class,function!`);
+  }
 }
 
 /**
@@ -115,12 +188,15 @@ function assertPath(path, decoratorName) {
 }
 
 export {
-  assertInteger,
+  assertNaturalNumber,
   assertString,
   assertFunction,
   assertDecClass,
   assertDecFun,
-  assertMaxDecorate,
+  assertDec,
+  assertDecorateTimesSingle,
+  assertDecorateTimes,
+  assertTargetType,
   assertPath,
   assertOAISchema,
   assertOperation,

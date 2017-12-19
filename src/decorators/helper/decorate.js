@@ -4,7 +4,10 @@ import debug from '../../util/debug';
 import MiddlewareRegister from '../../register/middleware';
 import EndpointRegister from '../../register/endpoint';
 import DecoratorRegister from '../../register/decorator';
-import { assertInteger, assertString, assertFunction, assertMaxDecorate } from '../../util/assert';
+import { assertNaturalNumber, assertString, assertFunction, assertTargetType } from '../../util/assert';
+
+const DECORATORS_OPTION = {};
+const DECORATORS_GROUP = {};
 
 /**
  * Get the constructor of target.
@@ -74,7 +77,9 @@ function decorate(handler, ...args) {
  * @param {object} options
  * @param {string} options.name
  * @param {function} options.middleware
+ * @param {string} options.targetType any,class,function
  * @param {number} options.maxDecorate
+ * @param {number} options.minDecorate
  * @param {function} options.beforeHandler
  * @param {function} options.afterHandler
  * @returns {function} decorator function
@@ -83,23 +88,33 @@ function toDecorator(options) {
   const {
     name: decoratorName,
     middleware,
-    maxDecorate = 1,
     beforeHandler = _.noop,
     afterHandler = _.noop,
+    group = options.name,
+    targetType = 'any',
+    maxDecorate = 1,
+    minDecorate = 0,
   } = options;
   debug('toDecorator', options);
 
   assertString(decoratorName, 'decoratorName must be string!');
   assertFunction(middleware || _.noop, 'middleware must be function!');
-  assertInteger(maxDecorate, 'maxDecorate must be integer!');
   assertFunction(beforeHandler, 'beforeHandler must be function!');
   assertFunction(afterHandler, 'afterHandler must be function!');
+  assertString(group, 'group must be string!');
+  assertString(targetType, 'targetType must be string!');
+  assertNaturalNumber(maxDecorate, 'maxDecorate must be natural number!');
+  assertNaturalNumber(minDecorate, 'minDecorate must be natural number!');
+
+  DECORATORS_OPTION[decoratorName] = options;
+  DECORATORS_GROUP[group] = _.union([decoratorName], DECORATORS_GROUP[group]);
 
   function middlewareHandler(target, name, descriptor, constructor, ...entryArgs) {
+    assertTargetType(targetType, decoratorName, target, name, descriptor);
+
     beforeHandler(target, name, descriptor, constructor, decoratorName, ...entryArgs);
 
     constructor.decoratorRegister.lPush(name, decoratorName, { args: entryArgs, middleware });
-    assertMaxDecorate(constructor, name, decoratorName, maxDecorate);
 
     afterHandler(target, name, descriptor, constructor, decoratorName, ...entryArgs);
   }
@@ -110,6 +125,8 @@ function toDecorator(options) {
 }
 
 export {
+  DECORATORS_OPTION,
+  DECORATORS_GROUP,
   decorate,
   toDecorator,
 };

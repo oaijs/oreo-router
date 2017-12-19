@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
-import debug from '../util/debug';
 import Register from './base';
+import debug from '../util/debug';
+import { assertDecorateTimes } from '../util/assert';
 
 class DecoratorRegister extends Register {
   /**
@@ -59,6 +60,8 @@ class DecoratorRegister extends Register {
       // Count decorator.
       decoratorCounter[decoratorName] += 1;
     });
+
+    assertDecorateTimes(global, decoratorCounter);
   }
 
   /**

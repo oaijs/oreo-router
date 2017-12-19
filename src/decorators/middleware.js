@@ -9,7 +9,9 @@ function beforeHandler(target, name, descriptor, constructor, decoratorName, bas
 
 const Middleware = toDecorator({
   name: 'Middleware',
+  minDecorate: 1,
   maxDecorate: 1,
+  targetType: 'class',
   beforeHandler,
 });
 

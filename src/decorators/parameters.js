@@ -17,30 +17,35 @@ function beforeHandler(target, name, descriptor, constructor, decoratorName, ...
 const Query = toDecorator({
   name: 'Query',
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Body = toDecorator({
   name: 'Body',
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const FormData = toDecorator({
   name: 'FormData',
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Param = toDecorator({
   name: 'Param',
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Header = toDecorator({
   name: 'Header',
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 

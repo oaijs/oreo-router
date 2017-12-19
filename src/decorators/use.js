@@ -15,18 +15,21 @@ function beforeHandlerWrap(type) {
 const UseBefore = toDecorator({
   name: 'UseBefore',
   maxDecorate: Number.MAX_SAFE_INTEGER,
+  targetType: 'any',
   beforeHandler: beforeHandlerWrap('before'),
 });
 
 const Use = toDecorator({
   name: 'Use',
   maxDecorate: Number.MAX_SAFE_INTEGER,
+  targetType: 'any',
   beforeHandler: beforeHandlerWrap('now'),
 });
 
 const UseAfter = toDecorator({
   name: 'UseAfter',
   maxDecorate: Number.MAX_SAFE_INTEGER,
+  targetType: 'any',
   beforeHandler: beforeHandlerWrap('after'),
 });
 

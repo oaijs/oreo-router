@@ -15,31 +15,46 @@ function beforeHandler(target, name, descriptor, constructor, decoratorName, ...
 
 const Get = toDecorator({
   name: 'Get',
+  group: 'method',
+  minDecorate: 1,
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Post = toDecorator({
   name: 'Post',
+  group: 'method',
+  minDecorate: 1,
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Delete = toDecorator({
   name: 'Delete',
+  group: 'method',
+  minDecorate: 1,
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Put = toDecorator({
   name: 'Put',
+  group: 'method',
+  minDecorate: 1,
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
 const Patch = toDecorator({
   name: 'Patch',
+  group: 'method',
+  minDecorate: 1,
   maxDecorate: 1,
+  targetType: 'function',
   beforeHandler,
 });
 
