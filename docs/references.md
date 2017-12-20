@@ -78,7 +78,7 @@ app.listen(3000);
 | `@UseAfter(middle: KoaMiddle)`     | class  | 0/**Infinity**              | 将中间件挂载到类的尾部。                      |
 
 ## Function Decorators
-**Get**,**Post**,**Patch**,**Put**,**Delete**为一组装饰器，必须使用其中任意一个装饰器装饰要暴露的成员方法。
+**Get**,**Post**,**Patch**,**Put**,**Delete**为一组装饰器，必须使用其中任意一个装饰器装饰要暴露的成员方法。
 
 | Decorator Name          | Target   | Deocrate(min/max) | Description                              |
 | ----------------------- | -------- | ----------------- | ---------------------------------------- |
@@ -106,7 +106,7 @@ app.listen(3000);
 | `@UseAfter(KoaMiddle)`  | function | 0/**Infinity**              | 挂载中间件到方法尾部                               |
 
 # 自定义装饰器
-根据选项参数生成一个装饰器，注意：装饰器的名称不可以重复。
+根据选项参数生成一个装饰器，注意：装饰器的名称不可以重复。
 
 ## 使用toDecorator(options)
 ### 选项参数
@@ -128,7 +128,7 @@ app.listen(3000);
 **必须返回一个中间件函数**
 
 #### beforeHandler(target, name, descriptor, constructor, decoratorName, ...entryArgs)
-* target 装饰的目标
+* target 装饰的目标
 * name 装饰方法的名称，当装饰类的时候为**undefined**
 * descriptor 描述对象
 * constructor 装饰目标的构造函数
@@ -136,7 +136,7 @@ app.listen(3000);
 * ...entryArgs 使用该装饰器装饰时输入数据
 
 #### afterHandler(target, name, descriptor, constructor, decoratorName, ...entryArgs)
-* target 装饰的目标
+* target 装饰的目标
 * name 装饰方法的名称，当装饰类的时候为**undefined**
 * descriptor 描述对象
 * constructor 装饰目标的构造函数

@@ -39,7 +39,7 @@
 
 ---
 
-[例子源代码](https://github.com/BiteBit/oreo-router-examples)
+[例子源代码](https://github.com/BiteBit/oreo-router-examples)
 
 ---
 
@@ -59,13 +59,13 @@ const router = new OreoRouter({
   api: {
     // API基础信息
     info: {
-      // API文档的标题
+      // API文档的标题
       title: 'title',
       // API文档的描述
       description: 'description',
       // API文档的版本信息
       version: '1.0.0',
-      // API文档的联系人信息
+      // API文档的联系人信息
       contact: {
         // 联系人/组织的姓名
         name: 'API Support',
@@ -130,7 +130,7 @@ export default class ExampleController {
 ```
 
 ## 体验api-explorer
-现在你就可以使用api-explorer，可以看到预设的API基础信息以及API信息了。
+现在你就可以使用api-explorer，可以看到预设的API基础信息以及API信息了。
 ![hello-world](/docs/config-openapi.png)
 
 ## 测试接口
@@ -140,7 +140,7 @@ export default class ExampleController {
 ```
 
 # 为内置装饰器配置中间件
-在项目实践中，我们经常需要使用表单校验功能，检查某个入参是否符合特定的条件，检验通过之后才交由后续中间件处理。比如说我们现在需要增加query表单校验功能，那么我们可以为Query装饰器设置处理器中间件，来进行表单校验。提示：**如果想在最开始的时候校验表单，那么Query装饰器应当使用的尽量靠前**。关于装饰器中间件的执行顺序问题，请参考后文[《装饰器中间件的执行顺序》](#装饰器中间件的执行顺序)。
+在项目实践中，我们经常需要使用表单校验功能，检查某个入参是否符合特定的条件，检验通过之后才交由后续中间件处理。比如说我们现在需要增加query表单校验功能，那么我们可以为Query装饰器设置处理器中间件，来进行表单校验。提示：**如果想在最开始的时候校验表单，那么Query装饰器应当使用的尽量靠前**。关于装饰器中间件的执行顺序问题，请参考后文[《装饰器中间件的执行顺序》](#装饰器中间件的执行顺序)。
 
 ## 编写入口文件
 ```js
@@ -194,7 +194,7 @@ export default class ExampleController {
   @Summary('hello')
   @Description('oreo-router is awesome!')
   @Tags(['example'])
-  // 装饰器Query的参数将会被传递给上一步配置的中间件处理器中。
+  // 装饰器Query的参数将会被传递给上一步配置的中间件处理器中。
   // 接口入参必须包含一个name字段。
   @Query({
     name: {
@@ -217,7 +217,7 @@ export default class ExampleController {
 ## 编写装饰器处理器
 ```js
 // querySchema 为装饰器Query的参数
-// 如果name是必须字段且query入参不包含name，那么提示“Please enter name”
+// 如果name是必须字段且query入参不包含name，那么提示“Please enter name”
 // 否者校验通过
 export default function queryMiddlewareWrapper(querySchema) {
   return async (ctx, next) => {
@@ -379,7 +379,7 @@ export default class ExampleController {
 ```
 
 # 装饰器的自定义
-## 编写入口文件
+## 编写入口文件
 ```js
 // index.js
 
@@ -476,7 +476,7 @@ export default class ExampleController {
 ```
 
 # 装饰器中间件的执行顺序
-装饰器中间件的调用顺序分为外序和内序，但是无论是外序还是内序，都是由上至下先后调用的。
+装饰器中间件的调用顺序分为外序和内序，但是无论是外序还是内序，都是由上至下先后调用的。
 外序指的是**UseBefore**、**Use**、**UseAfter**、**Decorator(泛指其他装饰器)** 四者之间的顺序关系。
 内序指的是**UseBefore**、**Use**、**UseAfter**、**Decorator(泛指其他装饰器)** 同时装饰一个方法时与自己的顺序关系，比如两个**UseBefore**同时装饰一个方法的时候，在前面的**UseBefore**先执行。
 
