@@ -72,10 +72,10 @@ app.listen(3000);
 ## Class Decorators
 | Decorator Name                     | Target | Deocrate(min/max) | Description                       |
 | ---------------------------------- | ------ | ----------------- | --------------------------------- |
-| `@Middleware(routePrefix: string)` | class  | **1**/1               | 将该类标记为一个业务接口类，并设置一个路由前缀应用于所有接口方法。 |
-| `@UseBefore(middle: KoaMiddle)`    | class  | 0/**Infinity**              | 将中间件挂载到类的头部。                      |
-| `@Use(middle: KoaMiddle)`          | class  | 0/**Infinity**              | 将中间件挂载到类的装饰器之后。                   |
-| `@UseAfter(middle: KoaMiddle)`     | class  | 0/**Infinity**              | 将中间件挂载到类的尾部。                      |
+| `@Middleware(string)` | class  | **1**/1               | 将该类标记为一个业务接口类，并设置一个路由前缀应用于所有接口方法。 |
+| `@UseBefore(middleware)`    | class  | 0/**Infinity**              | 将中间件挂载到类的头部。                      |
+| `@Use(middleware)`          | class  | 0/**Infinity**              | 将中间件挂载到类的装饰器之后。                   |
+| `@UseAfter(middleware)`     | class  | 0/**Infinity**              | 将中间件挂载到类的尾部。                      |
 
 ## Function Decorators
 **Get**,**Post**,**Patch**,**Put**,**Delete**为一组装饰器，必须使用其中任意一个装饰器装饰要暴露的成员方法。
@@ -101,9 +101,9 @@ app.listen(3000);
 | `@FormData(object)`     | function | 0/1               | formData请求参数描述，详情：[parameter-object][parameter-object] |
 | `@Header(object)`       | function | 0/1               | header请求参数描述，详情：[parameter-object][parameter-object] |
 | `@Response(object)`     | function | **1**/1               | 响应结果描述，详情：[responses-object][ responses-object] |
-| `@UseBefore(KoaMiddle)` | function | 0/**Infinity**              | 挂载中间件到方法头部                               |
-| `@Use(KoaMiddle)`       | function | 0/**Infinity**              | 挂载中间件到方法之前                               |
-| `@UseAfter(KoaMiddle)`  | function | 0/**Infinity**              | 挂载中间件到方法尾部                               |
+| `@UseBefore(middleware)` | function | 0/**Infinity**              | 挂载中间件到方法头部                               |
+| `@Use(middleware)`       | function | 0/**Infinity**              | 挂载中间件到方法之前                               |
+| `@UseAfter(middleware)`  | function | 0/**Infinity**              | 挂载中间件到方法尾部                               |
 
 # 自定义装饰器
 根据选项参数生成一个装饰器，注意：装饰器的名称不可以重复。

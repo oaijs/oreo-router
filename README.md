@@ -131,7 +131,7 @@ export default class ExampleController {
 当然啦，功能远远不止于此。我们还可以为每个内置装饰器配置处理器中间件，以便做一些个性化的业务。比如我们可以为**Query**装饰器配置处理器中间件，来实现query表单的校验哦。更多玩法等你来挖掘！
 
 ## Enjoying api-explorer
-使用浏览器打开api-explorer：**http://127.0.0.1:3000/api-explorer**，在这里你可以方便的查看服务提供的所有接口，以及每个接口的基本信息，入参格式、类型，返回结果的状态码、格式等等，甚至你还可以这里直接的调用它。
+使用浏览器打开api-explorer：http://127.0.0.1:3000/api-explorer，在这里你可以方便的查看服务提供的所有接口，以及每个接口的基本信息，入参格式、类型，返回结果的状态码、格式等等，甚至你还可以这里直接的调用它。
 ![hello-world](/docs/hello-world.png)
 
 # Documentation
