@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-// import debug from '../util/debug';
+import debug from '../util/debug';
 
 class Register {
   constructor(options = {}) {
@@ -32,14 +32,14 @@ class Register {
   }
 
   setScope(scopeName, keyword, value) {
-    // debug('setScope:', scopeName, keyword, value);
+    debug('setScope:', scopeName, keyword, value);
     const oldValue = this.store[scopeName];
     const newValue = _.set({}, keyword, value);
     this.store[scopeName] = _.merge({}, oldValue, newValue);
   }
 
   setGlobal(keyword, value) {
-    // debug('setGlobal:', keyword, value);
+    debug('setGlobal:', keyword, value);
     this.storeGlobal[keyword] = value;
   }
 
@@ -56,12 +56,12 @@ class Register {
   }
 
   getScope(scopeName, keyword) {
-    // debug('getScope', scopeName, keyword);
+    debug('getScope', scopeName, keyword);
     return _.get(this.store, `${scopeName}.${keyword}`);
   }
 
   getGlobal(keyword) {
-    // debug('getGlobal', keyword);
+    debug('getGlobal', keyword);
     return _.get(this.storeGlobal, keyword);
   }
 
@@ -76,10 +76,10 @@ class Register {
   }
 
   lPushScope(scopeName, keyword, value) {
-    // debug('lPushScope:', scopeName, keyword, value);
+    debug('lPushScope:', scopeName, keyword, value);
 
     const oldValue = this.get(scopeName, keyword);
-    const newValue = _.compact(_.union([value], oldValue));
+    const newValue = _.compact(_.concat([value], oldValue));
 
     this.setScope(scopeName, keyword, newValue);
     this.setScopeOrder(scopeName, keyword);
@@ -88,10 +88,10 @@ class Register {
   }
 
   lPushGlobal(keyword, value) {
-    // debug('lPushGlobal:', keyword, value);
+    debug('lPushGlobal:', keyword, value);
 
     const oldValue = this.get(keyword);
-    const newValue = _.compact(_.union([value], oldValue));
+    const newValue = _.compact(_.concat([value], oldValue));
 
     this.setGlobal(keyword, newValue);
     this.setGlobalOrder(keyword);
