@@ -4,9 +4,9 @@ import { jsonSchemaToParameters } from 'jsonschema-oai-parameters';
 import { assertDecFun, assertParameter } from '../util/assert';
 import { toDecorator } from './helper/decorate';
 
-function beforeHandler(target, name, descriptor, constructor, decoratorName, ...args) {
+function beforeHandler(target, name, descriptor, constructor, decoratorName, schema) {
   const keyword = _.camelCase(decoratorName);
-  const { parameters } = jsonSchemaToParameters(keyword, args[0]);
+  const { parameters } = jsonSchemaToParameters(keyword, schema);
 
   assertDecFun(target, name, descriptor, decoratorName);
   assertParameter(parameters, decoratorName);

@@ -1,13 +1,13 @@
 import { toDecorator } from './helper/decorate';
 
 function beforeHandlerWrap(type) {
-  return function beforeHandler(target, name, descriptor, constructor, decoratorName, ...args) {
+  return function beforeHandler(target, name, descriptor, constructor, decoratorName, middleware) {
     if (name && descriptor) {
       // Decorating target is function
-      constructor.middlewareRegister.lPush(name, type, ...args);
+      constructor.middlewareRegister.lPush(name, type, middleware);
     } else {
       // Decorating target is class
-      constructor.middlewareRegister.lPush(type, ...args);
+      constructor.middlewareRegister.lPush(type, middleware);
     }
   };
 }

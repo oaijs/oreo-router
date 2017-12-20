@@ -109,6 +109,8 @@ class OreoRouter extends Router {
       const route = oai2koaUrlJoin(basePath, baseRoute, subRoute);
       const debugMsg = `${middlewareClass.name}.${operationId}`;
       const middlewares = this.loadMiddlewaresFromClassFunction(middlewareClass, functionName);
+      debug('middlewares', middlewares);
+
       const middlewareSequence = [
         ...middlewares.classMiddlewaresBefore,
         ...middlewares.classMiddlewaresDecorator,

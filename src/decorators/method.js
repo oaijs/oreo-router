@@ -2,9 +2,8 @@ import { assertPath } from '../util/assert';
 import { toDecorator } from './helper/decorate';
 import { koa2oai } from '../util/route';
 
-function beforeHandler(target, name, descriptor, constructor, decoratorName, ...args) {
+function beforeHandler(target, name, descriptor, constructor, decoratorName, subRoute) {
   const method = decoratorName;
-  const [subRoute] = [...args];
 
   assertPath(subRoute, decoratorName);
 

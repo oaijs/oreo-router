@@ -3,13 +3,13 @@ import _ from 'lodash';
 import { assertDecFun, assertOperation } from '../util/assert';
 import { toDecorator } from './helper/decorate';
 
-function beforeHandler(target, name, descriptor, constructor, decoratorName, ...args) {
+function beforeHandler(target, name, descriptor, constructor, decoratorName, schema) {
   const keyword = _.camelCase(decoratorName);
 
   assertDecFun(target, name, descriptor, decoratorName);
-  assertOperation(keyword, args[0], decoratorName);
+  assertOperation(keyword, schema, decoratorName);
 
-  constructor.endpointRegister.set(name, keyword, ...args);
+  constructor.endpointRegister.set(name, keyword, schema);
 }
 
 const Summary = toDecorator({
